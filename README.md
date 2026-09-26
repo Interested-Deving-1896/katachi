@@ -1,215 +1,91 @@
 # katachi
 
-[![Release](https://img.shields.io/github/v/release/nmicovic/katachi)](https://img.shields.io/github/v/release/nmicovic/katachi)
-[![Build status](https://img.shields.io/github/actions/workflow/status/nmicovic/katachi/main.yml?branch=main)](https://github.com/nmicovic/katachi/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/nmicovic/katachi/branch/main/graph/badge.svg)](https://codecov.io/gh/nmicovic/katachi)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/nmicovic/katachi)](https://img.shields.io/github/commit-activity/m/nmicovic/katachi)
-[![License](https://img.shields.io/github/license/nmicovic/katachi)](https://img.shields.io/github/license/nmicovic/katachi)
+[![Built with Ona](https://ona.com/build-with-ona.svg)](https://app.ona.com/#https://github.com/Interested-Deving-1896/katachi) [![KDE Eco](https://img.shields.io/badge/KDE%20Eco-certified-brightgreen?logo=kde&logoColor=white&style=flat-square)](https://eco.kde.org/) [![Blue Angel](https://img.shields.io/badge/Blue%20Angel-DE--UZ%20215-0055a4?style=flat-square)](https://www.blauer-engel.de/en/certification/criteria)
 
-<div align="center">
-  <img src="logo.png" alt="Logo" width="300"/>
-</div>
 
-**Katachi** is a Python package for validating, processing, and parsing directory structures against defined schemas.
+<!-- AI:start:what-it-does -->
+_Description pending._
+<!-- AI:end:what-it-does -->
 
-> **Note**: Katachi is currently under active development and should be considered a work in progress. APIs may change in future releases.
+## Architecture
 
-- **GitHub repository**: <https://github.com/nmicovic/katachi/>
-- **Documentation**: <https://nmicovic.github.io/katachi/>
+<!-- AI:start:architecture -->
+_Architecture documentation pending._
+<!-- AI:end:architecture -->
 
-## Features
+## Install
 
-- 📐 **Schema-based validation** - Define expected directory structures using YAML
-- 🧩 **Extensible architecture** - Create custom validators and actions
-- 🔄 **Relationship validation** - Validate relationships between files (like paired files)
-- 🚀 **Command-line interface** - Easy to use CLI with rich formatting
-- 📋 **Detailed reports** - Get comprehensive validation reports
-
-## Installation
-
-Install from PyPI:
+<!-- Add installation instructions here. This section is yours — the AI will not modify it. -->
 
 ```bash
-pip install katachi
-```
-
-For development:
-
-```bash
-git clone https://github.com/nmicovic/katachi.git
+git clone https://github.com/Interested-Deving-1896/katachi.git
 cd katachi
-make install
 ```
 
-## Quick Start
+## Usage
 
-### Define a schema (schema.yaml)
+<!-- Add usage examples here. This section is yours — the AI will not modify it. -->
 
-```yaml
-semantical_name: data
-type: directory
-pattern_name: data
-children:
-  - semantical_name: image
-    pattern_name: "img\\d+"
-    type: file
-    extension: .jpg
-    description: "Image files with numeric identifiers"
-  - semantical_name: metadata
-    pattern_name: "img\\d+"
-    type: file
-    extension: .json
-    description: "Metadata for image files"
-  - semantical_name: file_pairs_check
-    type: predicate
-    predicate_type: pair_comparison
-    description: "Check if images have matching metadata files"
-    elements:
-      - image
-      - metadata
+## Configuration
+
+<!-- Document configuration options here. This section is yours — the AI will not modify it. -->
+
+## CI
+
+<!-- AI:start:ci -->
+_CI documentation pending._
+<!-- AI:end:ci -->
+
+## Mirror chain
+
+<!-- AI:start:mirror-chain -->
+This repo is maintained in [`Interested-Deving-1896/katachi`](https://github.com/Interested-Deving-1896/katachi) and mirrored through:
+
+```
+Interested-Deving-1896/katachi  ──►  OpenOS-Project-OSP/katachi  ──►  OpenOS-Project-Ecosystem-OOC/katachi
 ```
 
-### Validate a directory structure
+Changes flow downstream automatically via the hourly mirror chain in
+[`fork-sync-all`](https://github.com/Interested-Deving-1896/fork-sync-all).
+Direct commits to OSP or OOC are detected and opened as PRs back to `Interested-Deving-1896`.
+<!-- AI:end:mirror-chain -->
 
-```bash
-katachi validate schema.yaml target_directory
-```
+## Contributors
 
-## Command-Line Examples
+<!-- AI:start:contributors -->
+_Contributors pending._
+<!-- AI:end:contributors -->
 
-Validate a simple directory structure:
-```bash
-katachi validate "tests/schema_tests/test_sanity/schema.yaml" "tests/schema_tests/test_sanity/dataset"
-```
+## Origins
 
-Validate a nested directory structure:
-```bash
-katachi validate "tests/schema_tests/test_depth_1/schema.yaml" "tests/schema_tests/test_depth_1/dataset"
-```
+<!-- AI:start:origins -->
+_Original project — no upstream influences recorded._
+<!-- AI:end:origins -->
 
-Validate paired files (e.g., ensure each .jpg has a matching .json file):
-```bash
-katachi validate "tests/schema_tests/test_paired_files/schema.yaml" "tests/schema_tests/test_paired_files/data"
-```
+## Resources
 
-Validate Azure Blob Storage:
-```bash
-# Set Azure credentials in environment variables
-export AZURE_STORAGE_ACCOUNT="your_storage_account"
-export AZURE_STORAGE_ACCESS_KEY="your_access_key"
-# Or use SAS token
-export AZURE_STORAGE_SAS_TOKEN="your_sas_token"
+<!-- AI:start:resources -->
+_No additional resource files found._
+<!-- AI:end:resources -->
 
-# Validate local schema against Azure Blob Storage
-katachi validate "schema.yaml" "abfs://container/path"
+## Accessibility
 
-# Validate schema in Azure Blob Storage against another Azure Blob Storage path
-katachi validate "abfs://container/schema.yaml" "abfs://container/path"
-```
+<!-- AI:start:accessibility -->
+This repo uses automated accessibility auditing via `check-accessibility.yml`.
 
-## Python API
+Checks include: CODEOWNERS ownership coverage, README screen-reader compatibility,
+WCAG 2.1 AA HTML compliance, audio overview (espeak-ng), and Braille output (liblouis).
 
-```python
-from pathlib import Path
-from katachi.schema.importer import load_yaml
-from katachi.schema.validate import validate_schema
 
-# Load schema from YAML
-schema = load_yaml(Path("schema.yaml"), Path("data_directory"))
 
-# Validate directory against schema
-report = validate_schema(schema, Path("data_directory"))
 
-# Check if validation passed
-if report.is_valid():
-    print("Validation successful!")
-else:
-    print("Validation failed with the following issues:")
-    for result in report.results:
-        if not result.is_valid:
-            print(f"- {result.path}: {result.message}")
-```
-
-### Using Azure Blob Storage
-
-```python
-import os
-from katachi.schema.importer import load_yaml
-from katachi.schema.validate import validate_schema
-from katachi.utils.fs_utils import get_filesystem
-
-# Set Azure credentials
-os.environ["AZURE_STORAGE_ACCOUNT"] = "your_storage_account"
-os.environ["AZURE_STORAGE_ACCESS_KEY"] = "your_access_key"
-# Or use SAS token
-# os.environ["AZURE_STORAGE_SAS_TOKEN"] = "your_sas_token"
-
-# Get filesystem for Azure Blob Storage
-target_fs = get_filesystem("abfs://container/path")
-schema_fs = get_filesystem("abfs://container/schema.yaml")
-
-# Load schema from Azure Blob Storage
-schema = load_yaml("schema.yaml", "path", schema_fs, target_fs)
-
-# Validate Azure Blob Storage path against schema
-report = validate_schema(schema, "path", target_fs)
-
-# Check validation results
-if report.is_valid():
-    print("Validation successful!")
-else:
-    print("Validation failed with the following issues:")
-    for result in report.results:
-        if not result.is_valid:
-            print(f"- {result.path}: {result.message}")
-```
-
-## Extending Katachi
-
-### Custom validators
-
-```python
-from pathlib import Path
-from katachi.schema.schema_node import SchemaNode
-from katachi.validation.core import ValidationResult, ValidatorRegistry
-
-def my_custom_validator(node: SchemaNode, path: Path) -> ValidationResult:
-    # Custom validation logic
-    return ValidationResult(
-        is_valid=True,
-        message="Custom validation passed",
-        path=path,
-        validator_name="custom_validator"
-    )
-
-# Register the validator
-ValidatorRegistry.register("custom_validator", my_custom_validator)
-```
-
-### Custom file processing
-
-```python
-from pathlib import Path
-from typing import Any
-from katachi.schema.actions import register_action, NodeContext
-
-def process_image(node, path: Path, parent_contexts: list[NodeContext], context: dict[str, Any]) -> None:
-    # Custom image processing logic
-    print(f"Processing image: {path}")
-    # Access parent context if needed
-    for parent_node, parent_path in parent_contexts:
-        if parent_node.semantical_name == "timestamp":
-            print(f"Image from date: {parent_path.name}")
-            break
-
-# Register the action
-register_action("image", process_image)
-```
-
-## Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Run the [Check Accessibility](https://github.com/Interested-Deving-1896/katachi/actions/workflows/check-accessibility.yml)
+workflow to generate the first report and accessibility artifacts.
+See [DOCS/accessibility.md](https://github.com/Interested-Deving-1896/katachi/blob/main/DOCS/accessibility.md) for the full reference.
+<!-- AI:end:accessibility -->
 
 ## License
 
-This project is licensed under the terms of the [MIT License](LICENSE).
+<!-- AI:start:license -->
+[MIT](https://github.com/Interested-Deving-1896/katachi/blob/main/LICENSE) © 2026 [Interested-Deving-1896](https://github.com/Interested-Deving-1896)
+<!-- AI:end:license -->
