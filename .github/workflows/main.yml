@@ -67,6 +67,8 @@ jobs:
         if: ${{ matrix.python-version == '3.11' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          # The codecov CLI unpacks shared libraries into TMPDIR; /tmp is noexec on the self-hosted runner.
+          TMPDIR: ${{ runner.temp }}
 
   check-docs:
     # Owner/collaborator runs go to the self-hosted visas runner; fork PRs (public repo) stay on GitHub-hosted runners.
