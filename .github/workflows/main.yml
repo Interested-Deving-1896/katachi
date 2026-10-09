@@ -4,12 +4,23 @@ on:
   push:
     branches:
       - main
+      - ci/self-hosted-runner # TEMP
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: read
+
+# A new push to a PR cancels the run it replaces; pushes to main each get their own run.
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    # Owner/collaborator runs go to the self-hosted visas runner; fork PRs (public repo) stay on GitHub-hosted runners.
+    runs-on: ${{ github.event.pull_request.head.repo.fork && 'ubuntu-latest' || fromJSON('["self-hosted","visas"]') }}
+    timeout-minutes: 20
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -26,7 +37,9 @@ jobs:
         run: make check
 
   tests-and-type-check:
-    runs-on: ubuntu-latest
+    # Owner/collaborator runs go to the self-hosted visas runner; fork PRs (public repo) stay on GitHub-hosted runners.
+    runs-on: ${{ github.event.pull_request.head.repo.fork && 'ubuntu-latest' || fromJSON('["self-hosted","visas"]') }}
+    timeout-minutes: 20
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
@@ -57,7 +70,9 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   check-docs:
-    runs-on: ubuntu-latest
+    # Owner/collaborator runs go to the self-hosted visas runner; fork PRs (public repo) stay on GitHub-hosted runners.
+    runs-on: ${{ github.event.pull_request.head.repo.fork && 'ubuntu-latest' || fromJSON('["self-hosted","visas"]') }}
+    timeout-minutes: 20
     steps:
       - name: Check out
         uses: actions/checkout@v4
