@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - ci/self-hosted-runner # TEMP
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 

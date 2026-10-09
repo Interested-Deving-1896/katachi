@@ -2,7 +2,7 @@ name: Run Schema Validation Tests
 
 on:
   push:
-    branches: [ main, ci/self-hosted-runner ] # TEMP
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
